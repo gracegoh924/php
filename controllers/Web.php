@@ -13,11 +13,9 @@ class Web extends CI_Controller {
 
 	public function index(){
 
-		// 데이터베이스에서 불러오기 (모델)
-		$data['list'] = $this -> common_model -> rowfinder("test_table","*","order by num desc limit 1");
 
 		// 직접 불러올 수도 있습니다.
-		$sql = "select * from test_table order by num desc limit 4";
+		$sql = "select * from test order by num desc limit 20";
 		// QUERY
 		$query = $this -> db -> query($sql);
 		// 결과
@@ -30,11 +28,21 @@ class Web extends CI_Controller {
 
 	}
 
+    public function view(){
+
+		// 데이터베이스에서 불러오기 (모델)
+		$data['list'] = $this -> common_model -> rowfinder("test","*","order by num desc limit 1");
+
+		$this->load->view('web/view_v', $data);
+    }
+    
 	function insert(){
 		$name = $_POST['name'];
+        $subject = $_POST['subject'];
+        $content = $_POST['content'];
 
 		// SQL
-		$sql = "insert into test_table (name) values ('$name')";
+		$sql = "insert into test (name, subject, content) values ('$name', '$subject', '$content')";
 
 		// QUERY
 		$this -> db -> query($sql);
@@ -42,8 +50,8 @@ class Web extends CI_Controller {
 		// 원래 페이지로 이동
 		echo "
 			<script>
-				alert('저장완료');
-				location.href='/web/index';
+				alert('저장 완료');
+				location.href='index';
 			</script>
 		";
 
