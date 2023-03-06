@@ -1,3 +1,4 @@
+* 글쓰기
 <form action="insert" name="form_test" method="post" enctype="application/x-www-form-urlencoded">
   <input type="text" name="name" placeholder="이름" />
   <input type="text" name="subject" placeholder="제목" />
@@ -5,8 +6,42 @@
   <input type="submit" />
 </form>
 
-<article id="board_area">
 
+* 파일 첨부
+<form action="" method="POST" enctype="multipart/form-data">
+  <input type="file" name="myfile">
+  <input type="submit" name="action" value="Upload">
+</form>
+<?php
+  if(isset($_POST['action'])){
+    $uploaded_file_name_tmp = $_FILES[ 'myfile' ][ 'tmp_name' ];
+    $uploaded_file_name = $_FILES[ 'myfile' ][ 'name' ];
+    $upload_folder = "uploads/";
+    move_uploaded_file( $uploaded_file_name_tmp, $upload_folder . $uploaded_file_name );
+    echo "<p>" . $uploaded_file_name . "을(를) 업로드하였습니다.</p>";
+  }
+?>
+
+
+<?php
+  if(isset($_POST['action'])){
+    print_r( $_FILES[ 'myfile' ] );
+    echo "<br>";
+    echo $_FILES[ 'myfile' ][ 'name' ];
+    echo "<br>";
+    echo $_FILES[ 'myfile' ][ 'type' ];
+    echo "<br>";
+    echo $_FILES[ 'myfile' ][ 'size' ];
+    echo "<br>";
+    echo $_FILES[ 'myfile' ][ 'tmp_name' ];
+    echo "<br>";
+    echo $_FILES[ 'myfile' ][ 'error' ];
+  }
+?>
+
+
+
+<article id="board_area">
   <table cellpadding="0" cellspacing="0">
     <thead>
       <tr>
