@@ -61,7 +61,7 @@ class Common_model extends CI_Model {
 		return($query);
 	}	
 
-	function get_list($table = 'test', $type = '', $offset = '', $limit = '') {
+	function get_list($table = '', $type = '', $offset = '', $limit = '', $search_query='') {
 		$limit_query = '';
 	   
 		if ($limit != '' OR $offset != '') {
@@ -69,8 +69,8 @@ class Common_model extends CI_Model {
 		    $limit_query = ' LIMIT ' . $offset . ', ' . $limit;
 		}
 	   
-		$sql = "select * from test order by num desc limit 20";
-		$query = $this -> db -> query($sql);
+		$sql = "SELECT * FROM " . 'test' . $search_query." ORDER BY " . 'num' . " DESC " . $limit_query;
+        $query = $this -> db -> query($sql);
 	   
 		if ($type == 'count') {
 		    $result = $query -> num_rows();
