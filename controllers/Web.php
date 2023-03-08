@@ -91,7 +91,7 @@ class Web extends CI_Controller {
         $this -> load -> view('web/index', $data);
     }
 
-	}
+	
 
 
     // C
