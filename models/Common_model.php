@@ -7,13 +7,39 @@ class Common_model extends CI_Model {
     	parent::__construct();
     }
 	
+	public function search($search)
+	{
+		$this->db->select('*');
+		$this->db->from('test');
+		$this->db->like('num',$search);
+
+		if ($_POST['category'] == 'name'){
+			$this->db->or_like('name',$search);
+		}
+		if ($_POST['category'] == 'subject'){
+			$this->db->or_like('subject',$search);
+		}
+		if ($_POST['category'] == 'content'){
+			$this->db->or_like('content',$search);
+
+		}
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	// 각종 이름 찾아주는
 	public function rowfinder($table ='test', $columns= '', $search=''){
+		
+		$columns = $_GET['category'];
+        $search = $_GET['search'];
 		
 		$sql = "select $columns from $table $search";
 		$query = $this -> db -> query($sql);
 		$row = $query -> row();
 		return($row);
+
+
+
 	}
 	
 	// 각종 리스트 뽑아주는

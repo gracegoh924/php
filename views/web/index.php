@@ -13,8 +13,8 @@
                         alert("검색어를 입력하세요!");
                         return false;
                     } else {
-                        var act = "/index.php/web/index/test/q/" + $("#q").val() + "/page/1";
-                        $("#bd_search").attr('action', act).submit();
+                        rowfinder()
+
                     }
                 });
             });
@@ -82,22 +82,24 @@
               <th scope="col">조회수</th>
             </tr>
           </thead>
-          <div>
-            <form id="bd_search" method="post">
-              <br />
-              <input type="text" name="search_word" id="q" onkeypress="board_search_enter(document.q);" placeholder="검색하기" />
-              <input type="button" value="검색" name="" id="search_btn" />
+          <br />
+
+          <div style="background-color: lavender; padding: 10px;">
+           
+
+            <form action="search_page" method="post">
+              <select name="category">
+                <option value="subject">제목</option>
+                <option value="content">내용</option>
+                <option value="name">이름</option>
+              </select>
+              <input type="text" name="search" class="form-control" placeholder="Search">
+              <input type="submit" value="search" name="save"/>
             </form>
           </div>
           <br />
+
           <tbody>
-            1<?php echo $this -> uri -> segment(1); ?>
-            2<?php echo $this -> uri -> segment(2); ?>
-            3<?php echo $this -> uri -> segment(3); ?>
-            4<?php echo $this -> uri -> segment(4); ?>
-            5<?php echo $this -> uri -> segment(5); ?>
-            6<?php echo $this -> uri -> segment(6); ?>
-            7<?php echo $this -> uri -> segment(7); ?> </ br>
             * direct_list <br />
             <?php
               foreach($direct_list as $dl){

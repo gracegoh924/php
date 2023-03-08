@@ -11,18 +11,30 @@ class Web extends CI_Controller {
 	}
 
 
+    function search_click(){
 
-	public function index(){
+
 
 
         if($_POST){
-            $search = $_POST['search_word'];
+            $search = isset($_POST['search_word']);
             $search_query = " where name like '%$search%'";
         }
         else{
             $search_query = "";
         }
+
         
+        
+
+
+    }
+
+
+	public function index(){
+
+
+
 		// 직접 불러올 수도 있습니다.
 		// $sql = "select * from test order by num desc limit 10";
 		// QUERY
@@ -86,12 +98,33 @@ class Web extends CI_Controller {
  
         $limit = $config['per_page'];
  
-        $data['direct_list'] = $this -> common_model -> get_list($this -> uri -> segment(3), '', $start, $limit, $search_query);
+        $data['direct_list'] = $this -> common_model -> get_list($this -> uri -> segment(3), '', $start, $limit, isset($search_query));
 
         $this -> load -> view('web/index', $data);
     }
 
 	
+    public function search_page(){
+
+        
+		// 직접 불러올 수도 있습니다.
+		// $sql = "select * from test order by num desc limit 10";
+		// QUERY
+		// $query = $this -> db -> query($sql);
+		// 결과
+		// $result = $query -> result();
+		// VIEW 로 보내기
+		// $data['direct_list'] = $result;
+
+
+        // 리스트 중복 방지
+		// $this->load->view('web/index', $data);
+
+        $this->load->model('common_model');
+        $search = $this->input->post('search');
+        $data['test'] =  $this->common_model->search($search);
+        $this->load->view('web/index_search', $data);
+    }
 
 
     // C
@@ -148,7 +181,11 @@ class Web extends CI_Controller {
             $result = $this->common_model->modify_board($modify_data);
             
             if ( $result ) {
-                echo "<script>alert('수정 완료');</script>";
+                echo "
+                <script>
+                alert('수정 완료');
+                </script>
+                ";
             }
         } else {
             $data['views'] = $this->common_model->get_view($this->uri->segment(3));

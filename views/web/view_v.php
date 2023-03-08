@@ -58,8 +58,8 @@
                         <tr>
                             <th colspan="4"><br /><br />
                                 <th colspan="4">
-                                <a rel="external" href="/index.php/<?php echo $this -> uri -> segment(1); ?>/index/">목록1</a>
-                                <a href="/index.php/web/modify/<?php echo $this -> uri -> segment(3); ?>">수정2</a>
+                                <a rel="external" href="/index.php/<?php echo $this -> uri -> segment(1); ?>/">목록</a>
+                                <a href="/index.php/web/modify/<?php echo $this -> uri -> segment(3); ?>">수정</a>
 
                                 <a href="/index.php/web/delete/<?php echo $this -> uri -> segment(3); ?>">삭제</a>
                             </th>
