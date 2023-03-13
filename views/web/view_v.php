@@ -7,22 +7,100 @@
         <title>CodeIgniter</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $("#search_btn").click(function() {
-                    if ($("#q").val() == '') {
-                        alert("검색어를 입력하세요!");
-                        return false;
-                    } else {
-                        var act = "/index.php/web/index/test/q/" + $("#q").val();
-                        $("#bd_search").attr('action', act).submit();
-                    }
-                });
-            });
- 
-            function board_search_enter(form) {
-                var keycode = window.event.keyCode;
-                if (keycode == 13)
-                    $("#search_btn").click();
+           
+
+            // const myList = document.getElementById('my-list')
+            // const listItem = document.getElementsByClassName('list-item')
+
+            // 댓글
+            function handleSingleClick(e) {
+                const singleItem = document.getElementById(e.id)
+                singleItem.classList.toggle("mystyle")
+            }
+
+            function handleUpdate(e) {
+                const singleItem = document.getElementById(e.id).previousSibling
+                singleItem.style.visibility = "hidden"
+
+                const updateInput = document.createElement("input")
+                updateInput.setAttribute("id", "update-input")
+                updateInput.value = singleItem.innerHTML
+
+                singleItem.parentNode.insertBefore(updateInput, singleItem)
+
+                const updateButton = document.getElementById(e.id)
+                updateButton.setAttribute("onclick", "handleUpdateConfirm(this)")
+            }
+
+            function handleUpdateConfirm(e) {
+                const updateInput = document.getElementById("update-input")
+
+                
+                const singleItem = document.getElementById(e.id).previousSibling
+                singleItem.innerHTML = updateInput.value
+                singleItem.style.visibility = "visible"
+
+                const updateButton = document.getElementById(e.id)
+                updateButton.setAttribute("onclick", "handleUpdate(this)")
+                updateInput.remove()
+            }
+
+
+            // 딜리트
+            function handleDelete(e) {
+                const singleItem = document.getElementById(e.id).parentElement
+                singleItem.remove()
+            }
+            
+            
+            function addItem() {
+                console.log("addItem 실행")
+                const nameInput = document.getElementById("name-input")
+                const itemInput = document.getElementById("item-input")
+                const content = itemInput.value
+                const content_name = nameInput.value
+
+
+                if (content_name) {
+                    alert ("작성되었습니다.")
+                    const myList = document.getElementById("my-list")
+                    console.log(myList.getElementsByTagName("body").length)
+                    let list_number = myList.getElementsByTagName("body").length + 1
+                    const newList = document.createElement("body")
+                    const newNum = document.createElement('span')
+                    const newText = document.createElement('span')
+                    const newName = document.createElement('span')
+                    
+                    newNum.innerText = list_number + " "
+                    newName.innerText = content_name + " : "
+                    newText.innerText = content
+                    newText.setAttribute("onclick", "handleSingleClick(this)")
+                    newText.setAttribute("id", `${list_number}th-item`)
+                    newList.appendChild(newNum)
+                    newList.appendChild(newName)
+                    newList.appendChild(newText)
+
+                    const updateButton = document.createElement('button')
+                    updateButton.innerHTML = "수정"
+                    updateButton.setAttribute("style", "margin: 5px;")
+                    updateButton.setAttribute("onclick", "handleUpdate(this)")
+                    updateButton.setAttribute("id", `${list_number}th-item-update-button`)
+                    newList.appendChild(updateButton)
+
+                    const deleteButton = document.createElement('button')
+                    deleteButton.innerHTML = "삭제"
+                    deleteButton.setAttribute("onclick", "handleDelete(this)")
+                    deleteButton.setAttribute("id", `${list_number}th-item-delete-button`)
+                    newList.appendChild(deleteButton)
+
+                    myList.append(newList)
+
+                    itemInput.value = ""
+                    nameInput.value = ""
+
+                } else {
+                    alert ("내용을 입력해주세요.")
+                }
             }
        </script>
     </head>
@@ -66,6 +144,12 @@
                         </tr>
                     </tfoot>
                 </table>
+                <div id="input-area" style="margin-top:30px">
+                    <input type="text" placeholder="작성자" id="name-input" />
+                    <input type="text" placeholder="댓글을 입력하세요" id="item-input" />
+                    <button onclick="addItem()">등록</button>
+                </div>      
+                <ul id="my-list"></ul>
             </article>
         </div>
     </body>

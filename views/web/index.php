@@ -100,17 +100,7 @@
           <br />
           <?php
 
-            echo "* 최신순 리스트";
-
-            echo "<br />" ;
-            print_r($direct_list);
-
-            echo "<br /><br />";
-
-            echo "* 역순(오래된순) 리스트";
-            echo "<br />" ;
             $result_reverse = array_reverse ( $direct_list );
-            print_r($result_reverse);
 
             ?>
           <br /><br />
@@ -125,7 +115,7 @@
             </form>
 
             <?php 
-              if ($_POST['order'] == "reverse"){
+              if (@$_POST['order'] == "reverse"){
                 foreach($result_reverse as $rr){
             ?>
                   <tr>
