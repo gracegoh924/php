@@ -11,26 +11,6 @@ class Web extends CI_Controller {
 	}
 
 
-    function search_click(){
-
-
-
-
-        if($_POST){
-            $search = isset($_POST['search_word']);
-            $search_query = " where name like '%$search%'";
-        }
-        else{
-            $search_query = "";
-        }
-
-        
-        
-
-
-    }
-
-
 	public function index(){
 
 
@@ -164,9 +144,6 @@ class Web extends CI_Controller {
 
 
     // U
-
-
-    // original
     function modify() {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         

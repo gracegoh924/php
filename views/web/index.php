@@ -98,29 +98,61 @@
             </form>
           </div>
           <br />
+          <?php
 
+            echo "* 최신순 리스트";
+
+            echo "<br />" ;
+            print_r($direct_list);
+
+            echo "<br /><br />";
+
+            echo "* 역순(오래된순) 리스트";
+            echo "<br />" ;
+            $result_reverse = array_reverse ( $direct_list );
+            print_r($result_reverse);
+
+            ?>
+          <br /><br />
           <tbody>
-            * direct_list <br />
-            <?php
-              foreach($direct_list as $dl){
-            ?>
-              <tr>
-                <th scope="row"><?php echo $dl -> num;?></th>
-                <!-- segment(3)이 안 들어오는 문제 있음 -->
-                
-                <td><a rel="external" href="/index.php/<?php echo $this -> uri -> segment(1); ?>/view/<?php echo $dl -> num; ?>"> <?php echo $dl -> subject;?></a></td>
-                            
-                <td><?php echo $dl -> content;?></td>
-                <td><?php echo $dl -> name;?></td>
-                <td><?php echo $dl -> hits;?></td>
-              </tr>
-            <?php
-              }     
-            ?>
-            <div style="background-color:gold">
+            * direct_list
+            <form action="" method="post">
+              <select name="order">
+                <option value="latest">최신순</option>
+                <option value="reverse">오래된순</option>
+              </select>
+              <button type="submit">정렬</button></p>
+            </form>
 
-            </div>
-
+            <?php 
+              if ($_POST['order'] == "reverse"){
+                foreach($result_reverse as $rr){
+            ?>
+                  <tr>
+                    <th scope="row"><?php echo $rr -> num;?></th>
+                    <!-- segment(3)이 안 들어오는 문제 있음 -->
+                    <td><a rel="external" href="/index.php/<?php echo $this -> uri -> segment(1); ?>/view/<?php echo $rr -> num; ?>"> <?php echo $rr -> subject;?></a></td>                            
+                    <td><?php echo $rr -> content;?></td>
+                    <td><?php echo $rr -> name;?></td>
+                    <td><?php echo $rr -> hits;?></td>
+                  </tr>
+            <?php
+                }
+              } else {
+                foreach($direct_list as $dl){
+          ?>
+                  <tr>
+                    <th scope="row"><?php echo $dl -> num;?></th>
+                    <!-- segment(3)이 안 들어오는 문제 있음 -->
+                    <td><a rel="external" href="/index.php/<?php echo $this -> uri -> segment(1); ?>/view/<?php echo $dl -> num; ?>"> <?php echo $dl -> subject;?></a></td>                            
+                    <td><?php echo $dl -> content;?></td>
+                    <td><?php echo $dl -> name;?></td>
+                    <td><?php echo $dl -> hits;?></td>
+                  </tr>
+          <?php
+              }
+            }
+            ?>
           </tbody>
           <tfoot>
               <tr>
