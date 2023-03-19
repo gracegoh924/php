@@ -30,8 +30,8 @@
                             </div>
                             
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary" id="write_btn"> 수정 </button>
-                                <button class="btn" onclick="document.location.reload()">취소</button>
+                                <button type="submit" class="btn" name="write_ok" id="write_btn"> 수정 </button>
+                                <button class="btn" name="action3">취소</button>
                             </div>
                         </div>
                     </fieldset>

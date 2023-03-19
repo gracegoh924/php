@@ -8,29 +8,15 @@ class Web extends CI_Controller {
         $this -> load -> database();
 		$this -> load -> model('common_model');
 		$this -> load -> helper(array('url', 'date', 'form'));
-	}
+
+        $this->load->view('inc/header_v');
+    }
 
 
-	public function index(){
+	public function index() {
 
+        // $this -> output -> enable_profiler(TRUE);
 
-
-		// 직접 불러올 수도 있습니다.
-		// $sql = "select * from test order by num desc limit 10";
-		// QUERY
-		// $query = $this -> db -> query($sql);
-		// 결과
-		// $result = $query -> result();
-		// VIEW 로 보내기
-		// $data['direct_list'] = $result;
-
-
-        // 리스트 중복 방지
-		// $this->load->view('web/index', $data);
-
-        
-
-        $this -> output -> enable_profiler(TRUE);
         // 검색어 초기화
         $search_word = $page_url = '';
         $uri_segment = 5;
@@ -84,50 +70,35 @@ class Web extends CI_Controller {
     }
 
 	
-    public function search_page(){
-
-        
-		// 직접 불러올 수도 있습니다.
-		// $sql = "select * from test order by num desc limit 10";
-		// QUERY
-		// $query = $this -> db -> query($sql);
-		// 결과
-		// $result = $query -> result();
-		// VIEW 로 보내기
-		// $data['direct_list'] = $result;
-
-
-        // 리스트 중복 방지
-		// $this->load->view('web/index', $data);
+    public function search_page() {
 
         $this->load->model('common_model');
         $search = $this->input->post('search');
         $data['test'] =  $this->common_model->search($search);
-        $this->load->view('web/index_search', $data);
+        $this->load->view('/web/index_search', $data);
     }
 
 
     // C
-	function insert(){
-		$name = $_POST['name'];
-        $subject = $_POST['subject'];
-        $content = $_POST['content'];
+	// function insert() {
+	// 	$name = $_POST['name'];
+    //     $subject = $_POST['subject'];
+    //     $content = $_POST['content'];
 
-		// SQL
-		$sql = "insert into test (name, subject, content) values ('$name', '$subject', '$content')";
+	// 	// SQL
+	// 	$sql = "insert into test (name, subject, content) values ('$name', '$subject', '$content')";
 
-		// QUERY
-		$this -> db -> query($sql);
+	// 	// QUERY
+	// 	$this -> db -> query($sql);
 
-		// 원래 페이지로 이동
-		echo "
-			<script>
-				alert('저장 완료');
-				location.href='index';
-			</script>
-		";
+    //     echo "
+	// 		<script>
+	// 			alert('글이 등록되었습니다');
+	// 			location.href='/index.php/web';
+	// 		</script>
+	// 	";
 
-	}
+	// }
 
 	
     // R
@@ -135,6 +106,7 @@ class Web extends CI_Controller {
 
         // 데이터베이스에서 불러오기 (모델)
 		// $data['dl'] = $this -> common_model -> rowfinder("test","*","order by num desc limit 1");
+ 
         // 게시판 이름과 게시물 번호에 해당하는 게시물 가져오기
         $data['views'] = $this -> common_model -> get_view($this -> uri -> segment(3), $this -> uri -> segment(4));
  
@@ -144,7 +116,7 @@ class Web extends CI_Controller {
 
 
     // U
-    function modify() {
+    public function modify() {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         
         if ( $_POST ) {
@@ -161,6 +133,7 @@ class Web extends CI_Controller {
                 echo "
                 <script>
                 alert('수정 완료');
+                location.href='/index.php/web';
                 </script>
                 ";
             }
@@ -184,12 +157,7 @@ class Web extends CI_Controller {
             echo "<script>alert('삭제되었습니다.');</script>";
         } 
     }
- 
 
-    // url 중 키 값을 구분하여 값을 가져오도록
-    // @param Array $url : segment_explode 한 url 값
-    // @param String $key :  가져오려는 값의 key
-    // @return String $url[$k] : 리턴 값
     
     function url_explode($url, $key) {
         $cnt = count($url);
@@ -224,5 +192,144 @@ class Web extends CI_Controller {
  
         $seg_exp = explode("/", $seg);
         return $seg_exp;
+    }
+
+
+    function insert_cmt(){
+        print_r($_POST);
+
+
+        $name = $_POST['name'];
+        $body = $_POST['body'];
+        $bbs = $_POST['bbs'];
+
+        $sql = "insert into `test_comment` (bbs, name, body) values ('$bbs', '$name', '$body')";
+        echo $sql;
+
+        // QUERY
+		$this -> db -> query($sql);
+
+        
+    
+    }
+
+
+    // function insert2() {
+	// 	$name = $_POST['name'];
+    //     $subject = $_POST['subject'];
+    //     $content = $_POST['content'];
+
+	// 	// SQL
+	// 	$sql = "insert into test (name, subject, content) values ('$name', '$subject', '$content')";
+
+	// 	// QUERY
+	// 	$this -> db -> query($sql);
+
+    //     echo "
+	// 		<script>
+	// 			alert('글이 등록되었습니다');
+	// 			location.href='/index.php/web';
+	// 		</script>
+	// 	";
+
+    // 	}
+
+
+        public function uploadimage() {
+
+            // 글
+            $name = $_POST['name'];
+            $subject = $_POST['subject'];
+            $content = $_POST['content'];
+    
+            // 이미지
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            // $config['max_size'] = 100;
+            // $config['max_width'] = 1024;
+            // $config['max_height'] = 768;
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('thumb_image')) {
+
+                $uploadData = $this->upload->data();
+                // print_r($uploadData); die;
+                $images1='http://localhost/'.'uploads/'.$uploadData['file_name'];
+
+                $data = array('thumb_image'=>$images1);
+                $this->load->model('common_model');
+
+
+                // $this->imagemodel->addimage($data);
+                if ($this->common_model->addimage($data)) {
+                    // $this->session->set_flashdata('feedback', 'Image added');
+
+                    echo "
+                        <script>
+                            alert('이미지가 등록되었습니다.');
+                        </script>
+                    ";
+                    
+
+                } else {
+                    // $this->session->set_flashdata('feedback', 'Image not added');
+                    echo "Image not added";
+                }
+
+                // print_r($images1);
+                // print_r($uploadData);
+                echo "<br />";
+
+
+                $src = $data['thumb_image'];
+
+                echo "
+                <div style='display:flex; flex-direction:column;'>
+                    <div class='container' style='display:flex; flex-direction:row; margin:20px; gap:50px;'>
+                        <div class='foto'>
+                            <img src=". $src ." height='400'>
+                        </div>
+                        <div class='article'>";
+                echo $src;
+                echo "<br /><br />";
+                echo "이름 : ".$name;
+                echo "<br />";
+                echo "제목 : ".$subject;
+                echo "<br />";
+                echo "내용 : ".$content;
+                echo "
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                ";
+
+
+
+                
+
+                               // SQL
+                $sql = "insert into test (name, subject, content, thumb_image) values ('$name', '$subject', '$content', '$src')";
+    
+                // QUERY
+                $this -> db -> query($sql);
+                // print_r($sql);
+
+
+                // $this->load->view('imageupload_v');
+                // $this -> load-> view('')
+
+            // save this img to DB / create DB and table
+            } else {
+                echo "오류";
+                print_r($sql);
+
+            }
+
+        
+
+        
+  
     }
 }
