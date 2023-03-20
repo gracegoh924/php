@@ -107,7 +107,7 @@
             <thead>
                 <tr>
                 <th scope="col">번호</th>
-                <th scope="col">제목</th>
+                <th scope="col" style="width:200px">제목</th>
                 <th scope="col" style="width:200px">내용</th>
                 <th scope="col">이름</th>
                 <th scope="col">조회</th>

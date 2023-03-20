@@ -19,18 +19,18 @@
                         <div class="control-group">
                             <label class="control-label" for="input01">제목</label>
                             <div class="controls">
-                                <input type="text" class="input-xlarge" id="input01" name="subject"
+                                <input type="text" class="form-control" id="input01" name="subject"
                                     value="<?php echo $views->subject; ?>" />
                             </div>
                             <label class="control-label" for="input02">내용</label>
                             <div class="controls">
-                                <textarea class="input-xlarge" id="input02" name="content" rows="5">
+                                <textarea class="form-control mb-2" id="input02" name="content" rows="5">
                                     <?php echo $views->content;?>
                                 </textarea>
                             </div>
                             
                             <div class="form-actions">
-                                <button type="submit" class="btn" name="write_ok" id="write_btn"> 수정 </button>
+                                <button type="submit" class="btn" name="write_ok" id="write_btn">수정</button>
                                 <button class="btn" name="action3">취소</button>
                             </div>
                         </div>
